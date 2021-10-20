@@ -1,7 +1,6 @@
 /**
 * @name AutoReport
 * @displayName AutoReport
-
 * @authorId 371336044022464523
 */
 /*@cc_on
@@ -40,7 +39,7 @@ const config = {
 				discord_id: "3713360440224645238",
 			}
 		],
-		version: "1.2.0",
+		version: "1.2.1",
 		description: "Ебать, сам лутает репорты",
 
 
@@ -152,6 +151,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 		}
 
 		async onStart() {
+			fs.writeFile(path, ` `, function (err) {});
 			delete require.cache[require.resolve(path)]
 			let auth = await this.auth()
 			if (auth === 401) return
